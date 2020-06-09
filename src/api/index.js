@@ -4,18 +4,21 @@
 */
 import ajax from './ajax'
 
-export const reqAddress = geohash => ajax('/position/' + geohash)
+// const BASE_URL = 'http://localhost:4000'
+const BASE_URL = '/api'
 
-export const reqCategorys = () => ajax('/index_category')
+export const reqAddress = geohash => ajax(BASE_URL + '/position/' + geohash)
 
-export const reqShops = (latitude, longitude) => ajax('/shop', {latitude, longitude})  // 键值对名字相同，缩写
+export const reqCategorys = () => ajax(BASE_URL + '/index_category')
 
-export const reqPwdLogin = (name, pwd, captcha) => ajax('/login_pwd', {name, pwd, captcha}, "post")
+export const reqShops = (latitude, longitude) => ajax(BASE_URL + '/shop', {latitude, longitude})  // 键值对名字相同，缩写
 
-export const reqSendCode = phone => ajax('/sendcode', {phone})
+export const reqPwdLogin = (name, pwd, captcha) => ajax(BASE_URL + '/login_pwd', {name, pwd, captcha}, "post")
 
-export const reqSmsLogin = (phone, code) => ajax('/login_sms', {phone, code}, "post")
+export const reqSendCode = phone => ajax(BASE_URL + '/sendcode', {phone})
 
-export const reqUser = () => ajax('/userinfo')
+export const reqSmsLogin = (phone, code) => ajax(BASE_URL + '/login_sms', {phone, code}, "post")
 
-export const reqLogout = () => ajax('/logout')
+export const reqUser = () => ajax(BASE_URL + '/userinfo')
+
+export const reqLogout = () => ajax(BASE_URL + '/logout')
