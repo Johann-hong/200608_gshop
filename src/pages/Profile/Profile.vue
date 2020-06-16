@@ -2,17 +2,17 @@
   <section class="profile">
     <HeaderTop title="我的"/>
     <section class="profile-number">
-      <router-link to='/login' class="profile-link">
+      <router-link :to='userInfo._id ? "/userinfo" : "/login"' class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>
           <p>
             <span class="user-icon">
               <i class="iconfont icon-shouji icon-mobile"></i>
             </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">{{userInfo.phone || '暂无绑定手机号'}}</span>
           </p>
         </div>
         <span class="arrow">
@@ -88,15 +88,41 @@
         </div>
       </a>
     </section>
+
+    <section class="profile_my_order border-1px">
+      <mt-button class="mt-button" type="danger" v-if="userInfo._id" @click="logout">退出登录</mt-button>
+    </section>
   </section>
 </template>
-
 <script>
   import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+  import {mapState} from 'vuex'
+  import {MessageBox, Toast} from 'mint-ui'
 
   export default {
     components: {
       HeaderTop
+    },
+    computed: {
+      ...mapState(['userInfo'])
+    },
+    methods: {
+      logout(){
+        // 弹出提示确认登出
+        MessageBox.confirm('确定执行此操作?').then(
+          action => {
+            // 下发，重置userInfo的值
+            this.$store.dispatch('logout')
+            // 提示登出成功
+            Toast({
+              message: '操作成功',
+              duration: 1000
+            });
+          },
+          // 取消不操作
+          action => {}
+        )
+      }
     }
   }
 </script>
@@ -234,4 +260,6 @@
             .icon-jiantou1
               color #bbb
               font-size 10px
+      .mt-button
+        width 100%    
 </style>
